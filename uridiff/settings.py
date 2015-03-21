@@ -33,6 +33,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'uridiff.data',
+    'uridiff.home',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,10 +58,6 @@ DATABASES = {
     }
 }
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/1.7/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -79,3 +78,16 @@ MEDIA_ROOT = 'uridiff/media'
 
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
+
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
+)
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)

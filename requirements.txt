@@ -6,8 +6,6 @@ psycopg2==2.5.3
 gunicorn==19.0.0
 static3==0.5.1
 wsgiref==0.1.2
-celery==3.1.17
-django-celery==3.1.16
 
 #for fun
 requests==2.3.0

@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 's$7v))=xvk-9(8u-w7vpj2zg+12711jdttbpdszur3689($hb&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 

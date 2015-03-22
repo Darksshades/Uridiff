@@ -35,6 +35,9 @@ class Crawler(object):
             if(page >= endPage):
                 break
 
+    def compare_user(self, user_a, user_b):
+      pass
+
 
     def proc_solved(self, url, aluno=None):
       pass

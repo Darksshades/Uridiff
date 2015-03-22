@@ -12,7 +12,13 @@ class Question(models.Model):
         url = "https://www.urionlinejudge.com.br/judge/pt/problems/view/{}".format(self.id)
         return url
 
+    def __unicode__(self):
+      return u'%i - %s' % (self.id, self.name)
+
 
 class UriUser(models.Model):
     id = models.IntegerField(primary_key=True)
     username = models.CharField(max_length=32)
+    questions = models.ManyToManyField(Question)
+
+

@@ -1,3 +1,11 @@
 from django.contrib import admin
+from uridiff.data.models import Question, UriUser
 
-# Register your models here.
+class QuestionAdmin(admin.ModelAdmin):
+    pass
+
+class UriUserAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(UriUser, UriUserAdmin)

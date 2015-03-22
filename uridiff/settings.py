@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'uridiff',
+    'uridiff.accounts',
     'uridiff.data',
     'uridiff.home',
 )
@@ -59,6 +60,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'django.core.context_processors.request',
     'uridiff.home.context_processors.debug',
+    'uridiff.home.context_processors.user_cookie',
 )
 
 ROOT_URLCONF = 'uridiff.urls'

@@ -8,25 +8,27 @@
 
 <div class="row placeholders">
 
-  {% if user1 and user2 %}
+  {% if user1 %}
       <div class="col-xs-6 col-sm-3 placeholder">
         <img src="{{ user1.avatar_url }}" class="img-responsive" alt="Generic placeholder thumbnail">
         <h4>{{ user1.name }}</h4>
         <span class="text-muted">Posição no Ranking: {{ user1.position }}</span>
       </div>
-
-      <div class="col-xs-6 col-sm-3 placeholder">
-        <img src="{{ user2.avatar_url }}" class="img-responsive" alt="Generic placeholder thumbnail">
-        <h4>{{ user2.name }}</h4>
-        <span class="text-muted">Posição no Ranking: {{ user2.position }}</span>
-      </div>
-
   {% else %}
     <div class="col-xs-6 col-sm-3 placeholder">
       <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
       <h4>Usuário 1</h4>
       <span class="text-muted">Posição no Ranking</span>
     </div>
+  {% endif %}
+
+  {% if user2 %}
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img src="{{ user2.avatar_url }}" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>{{ user2.name }}</h4>
+        <span class="text-muted">Posição no Ranking: {{ user2.position }}</span>
+      </div>
+  {% else %}
     <div class="col-xs-6 col-sm-3 placeholder">
       <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
       <h4>Usuário 2</h4>
@@ -35,10 +37,15 @@
   {% endif %}
 
   <div class="col-xs-12 col-sm-6 table-responsive">
+    <form class="form-inline" action="{% url 'update_user' %}" method="GET">
+      <label class="sub-header col-sm-5">Usuários</label>
+      <input type="text" class="form-control" name="user" placeholder="User ID" />
+      <input type="submit" class="btn btn-default btn-sm" value="Adicionar" />
+    </form>
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>#ID</th>
+          <th>ID</th>
           <th>Nome</th>
           <th>Questões</th>
           <th>Posição</th>

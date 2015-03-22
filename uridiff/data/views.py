@@ -30,4 +30,4 @@ def update_user(request):
     user, _ = UriUser.objects.get_or_create(id=user_id)
     c.update_user_info(user)
 
-    return redirect('home')
+    return redirect('compare')

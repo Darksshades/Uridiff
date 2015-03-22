@@ -4,7 +4,7 @@ from lxml import etree
 from Queue import Queue
 from threading import Thread
 
-from uridiff.data.models import Question, UriUser
+from uridiff.data.models import Question, UriUser, QuestionUsers
 
 
 logger = logging.getLogger('info')
@@ -15,6 +15,7 @@ NUM_WORKERS = 5
 class Crawler(object):
     isFinished = False
     http = urllib3.PoolManager(maxsize=NUM_SOCKETS)
+
 
     def update_questions(self, npages=99, startPage=1, once=False):
         page = startPage
@@ -41,11 +42,29 @@ class Crawler(object):
         proc_student(user_b)
 
 
-    def proc_solved(self, url, aluno=None):
-        pass
+    def proc_solved(self, url, user_id=0):
+        if self.isFinished:
+            return
 
+        r = self.http.request('GET', url)
+        html = etree.HTML(r.data)
+        self.html = html
+        tr_nodes = html.xpath('//div[@id="element"]/table/tbody')
 
-    def proc_student(self, user_id):
+        if len(tr_nodes) <=0:
+            self.isFinished = True
+            return
+
+        content_nodes = tr_nodes[0].xpath("tr")
+        header = [i[0][0].text for i in tr_nodes[0].xpath("tr") if len(i) > 1]
+        for i, ex in enumerate(header):
+            qu = QuestionUsers()
+            qu.question_id = int(ex)
+            qu.user_id = int(user_id)
+            qu.id = int(str(user_id)+str(ex))
+            qu.save()
+
+    def proc_student(self, user_id, npages=99, startPage=1, once=False):
         user, created = UriUser.objects.get_or_create(id=user_id)
 
         if created:
@@ -54,10 +73,18 @@ class Crawler(object):
         page = 1
         logger.info("Processing student: " + user.name)
         while(True):
+            if self.isFinished:
+                break
 
             link = "http://www.urionlinejudge.com.br/judge/en/profile/" \
                     + user.id  + \
                     "/sort:Run.updatetime/direction:desc/page:"+str(page)
+
+            proc_solved(link, user.id)
+
+            page += 1
+            if(page >= endPage):
+                break
 
     def update_user_info(self, user):
         logger.info("Getting user info: " + str(user.id))
@@ -84,6 +111,7 @@ class Crawler(object):
     def proc_question(self, url, aluno=False):
         if self.isFinished:
             logger.info("Unkown page processed.")
+            self.isFinished = True
             return
 
         r = self.http.request('GET', url)
@@ -92,6 +120,7 @@ class Crawler(object):
 
         if len(tr_nodes) <= 0:
             self.isFinished = True
+            return
 
         content_nodes = tr_nodes[0].xpath("tr")
         header = [i[0][0].text for i in tr_nodes[0].xpath("tr") if len(i) > 1]

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class Question(models.Model):
 
@@ -19,7 +20,6 @@ class Question(models.Model):
 class UriUser(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=32)
-    questions = models.ManyToManyField(Question)
     avatar_url = models.CharField(max_length=128, blank=True)
     position = models.IntegerField(default=0)
 
@@ -29,3 +29,13 @@ class UriUser(models.Model):
 
     def __unicode__(self):
       return u'%i - %s' % (self.id, self.name)
+
+
+class QuestionUsers(models.Model):
+    user = models.ForeignKey(UriUser, related_name='questions')
+    question = models.ForeignKey(Question, related_name='users')
+    submission_date = models.DateTimeField(auto_now_add=True, blank=True)
+    id = models.IntegerField(primary_key=True)
+
+    def __unicode__(self):
+      return u'%i: %s - %s' % (self.id, self.user.name, self.question.name)

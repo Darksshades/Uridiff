@@ -41,17 +41,17 @@ class Crawler(object):
         user2 = UriUser.objects.get(id=user_b)
 
         user1_questions = user1.questions.all()
-        user2_questions = user1.questions.all()
+        user2_questions = user2.questions.all()
 
         user1_missing = []
         user2_missing = []
 
         for q in user1_questions:
-            if user2_questions.filter(question_id=q.question_id).count() > 0:
+            if user2_questions.filter(question_id=q.question_id).count() == 0:
                 user2_missing.append(q.question)
 
         for q in user2_questions:
-            if user1_questions.filter(question_id=q.question_id).count() > 0:
+            if user1_questions.filter(question_id=q.question_id).count() == 0:
                 user1_missing.append(q.question)
 
         return (user1_missing, user2_missing)

@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.core.management import call_command
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from uridiff.data.models import Question
+from uridiff.data.models import Question, UriUser
+from uridiff.data.crawler import Crawler
 
 def update_questions(request):
     pages = 1
@@ -16,5 +17,17 @@ def update_questions(request):
 
 def remove_questions(request):
     Question.objects.all().delete()
+
+    return redirect('home')
+
+
+def update_user(request):
+    if not request.GET.get('user'):
+        return HttpResponse('Missing user parameter')
+
+    user_id = int(request.GET.get('user'))
+    c = Crawler()
+    user, _ = UriUser.objects.get_or_create(id=user_id)
+    c.update_user_info(user)
 
     return redirect('home')

@@ -46,10 +46,10 @@ class Crawler(object):
 
 
     def proc_student(self, user_id):
-        user, created = UriUser.object.get_or_create(id=user_id)
+        user, created = UriUser.objects.get_or_create(id=user_id)
 
         if created:
-            self.create_student(user)
+            self.update_user_info(user)
 
         page = 1
         logger.info("Processing student: " + user.name)
@@ -59,7 +59,7 @@ class Crawler(object):
                     + user.id  + \
                     "/sort:Run.updatetime/direction:desc/page:"+str(page)
 
-    def create_student(self, user):
+    def update_user_info(self, user):
         logger.info("Getting user info: " + str(user.id))
 
         url = "http://www.urionlinejudge.com.br/judge/en/profile/" \
@@ -69,11 +69,15 @@ class Crawler(object):
 
         r = self.http.request('GET', url)
         html = etree.HTML(r.data)
+        self.html = html
         tr_nodes = html.xpath('//div[@id="profile-bar"]')[0]
 
         user.name = tr_nodes.xpath('//div[@class="pb-username"]')[0].text
         user.avatar_url = tr_nodes.xpath('//div[@class="pb-avatar"]/img')[0] \
                                          .values()[0]
+        position = tr_nodes.xpath('//ul[@class="pb-information"]/li/text()') \
+                                  [1].split(u'\xba')[0]
+        user.position = int(position)
         user.save()
 
 

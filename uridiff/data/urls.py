@@ -5,4 +5,6 @@ urlpatterns = patterns('',
         name='update_questions'),
     url(r'^remove-questions$', 'uridiff.data.views.remove_questions',
         name='remove_questions'),
+    url(r'^update-user$', 'uridiff.data.views.update_user',
+        name='update_user'),
 )

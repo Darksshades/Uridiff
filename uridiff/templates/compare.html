@@ -55,7 +55,11 @@
         {% for user in users %}
           <tr>
             <td><a href="{{ user.get_url }}" target="_blank">{{ user.id }}</a></td>
-            <td>{{ user.name }}</td>
+            {% if user1 and not user2 %}
+            <td><a href="{% url 'compare' %}?user1={{ user1.id }}&user2={{ user.id }}">{{ user.name }}</td>
+            {% else %}
+              <td><a href="{% url 'compare' %}?user1={{ user.id }}">{{ user.name }}</td>
+            {% endif %}
             <td>{{ user.category }}</td>
             <td>{{ user.solved }}</td>
           </tr>

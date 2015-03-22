@@ -3,8 +3,7 @@ from uridiff.data.models import Question
 
 def dashboard(request):
 
-    a = Question(id=1, name="myq")
-    questions = [a]
+    questions = Question.objects.all()
 
     context = {
         'questions' : questions

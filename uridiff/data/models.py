@@ -34,7 +34,7 @@ class UriUser(models.Model):
 class QuestionUsers(models.Model):
     user = models.ForeignKey(UriUser, related_name='questions')
     question = models.ForeignKey(Question, related_name='users')
-    submission_date = models.DateTimeField(auto_now_add=True, blank=True)
+    submission_date = models.DateTimeField(auto_now_add=True, null=True)
     id = models.IntegerField(primary_key=True)
 
     def __unicode__(self):

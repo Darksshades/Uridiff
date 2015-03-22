@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from uridiff.data.models import Question
 from uridiff.data.models import UriUser
+from uridiff.data.crawler import Crawler
 
 def dashboard(request):
 
@@ -22,8 +23,17 @@ def dashboard(request):
         except:
             pass
 
+    questions1 = None
+    questions2 = None
+
+    if user1 and user2:
+        c = Crawler()
+        questions1, questions2 = c.compare_user(user1.id, user2.id)
+
     context = {
         'questions' : questions,
+        'questions1' : questions1,
+        'questions2' : questions2,
         'user1' : user1,
         'user2' : user2,
         'users' : users,
@@ -31,6 +41,6 @@ def dashboard(request):
 
     return render(request, 'compare.html', context)
 
+
 def home(request):
     return render(request, 'home.html')
-

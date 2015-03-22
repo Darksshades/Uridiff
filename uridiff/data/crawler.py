@@ -37,14 +37,31 @@ class Crawler(object):
                 break
 
     def compare_user(self, user_a, user_b):
-        proc_student(user_a)
-        return # temp debug
-        proc_student(user_b)
+        user1 = UriUser.objects.get(id=user_a)
+        user2 = UriUser.objects.get(id=user_b)
+
+        user1_questions = user1.questions.all()
+        user2_questions = user1.questions.all()
+
+        user1_missing = []
+        user2_missing = []
+
+        for q in user1_questions:
+            if user2_questions.filter(question_id=q.question_id).count() > 0:
+                user2_missing.append(q.question)
+
+        for q in user2_questions:
+            if user1_questions.filter(question_id=q.question_id).count() > 0:
+                user1_missing.append(q.question)
+
+        return (user1_missing, user2_missing)
 
 
     def proc_solved(self, url, user_id=0):
         if self.isFinished:
             return
+
+        logger.info("Url: " + url)
 
         r = self.http.request('GET', url)
         html = etree.HTML(r.data)
@@ -70,6 +87,7 @@ class Crawler(object):
         if created:
             self.update_user_info(user)
 
+        endPage = startPage+npages
         page = 1
         logger.info("Processing student: " + user.name)
         while(True):
@@ -77,10 +95,10 @@ class Crawler(object):
                 break
 
             link = "http://www.urionlinejudge.com.br/judge/en/profile/" \
-                    + user.id  + \
+                    + str(user.id)  + \
                     "/sort:Run.updatetime/direction:desc/page:"+str(page)
 
-            proc_solved(link, user.id)
+            self.proc_solved(link, user.id)
 
             page += 1
             if(page >= endPage):

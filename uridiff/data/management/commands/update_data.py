@@ -1,8 +1,9 @@
 from django.core.management.base import BaseCommand
 
-import uridiff.data.crawler as crawler
+from uridiff.data.crawler import Crawler
 
 class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
-        crawler.parse_exs(1)
+        crawler = Crawler()
+        crawler.update_questions(1)

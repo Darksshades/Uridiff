@@ -7,3 +7,8 @@ class Question(models.Model):
     name = models.CharField(max_length=128)
     solved = models.CharField(max_length=10, blank=True)
     level = models.IntegerField(default=1)
+
+
+class UriUser(models.Model):
+    id = models.IntegerField(primary_key=True)
+    username = models.CharField(max_length=32)

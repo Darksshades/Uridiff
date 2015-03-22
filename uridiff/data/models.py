@@ -18,7 +18,8 @@ class Question(models.Model):
 
 class UriUser(models.Model):
     id = models.IntegerField(primary_key=True)
-    username = models.CharField(max_length=32)
+    name = models.CharField(max_length=32)
     questions = models.ManyToManyField(Question)
 
-
+    def __unicode__(self):
+      return u'%i - %s' % (self.id, self.name)

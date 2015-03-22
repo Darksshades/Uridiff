@@ -4,7 +4,7 @@ from lxml import etree
 from Queue import Queue
 from threading import Thread
 
-from uridiff.data.models import Question
+from uridiff.data.models import Question, UriUser
 
 
 logger = logging.getLogger('info')
@@ -43,7 +43,7 @@ class Crawler(object):
       pass
 
 
-    def proc_question(self, url):
+    def proc_question(self, url, aluno=False):
         if self.isFinished:
             logger.info("Unkown page processed.")
             return
@@ -63,8 +63,11 @@ class Crawler(object):
         level = [i[5].text for i in tr_nodes[0].xpath("tr") if len(i) > 1]
 
         for i, head in enumerate(header):
-            q = Question(id=head, level=level[i], solved=solved[i].strip(),
-                         category=classe[i], name=name[i])
-            q.save()
+            if aluno:
+              aluno.questions.add(header)
+            else:
+              q = Question(id=head, level=level[i], solved=solved[i].strip(),
+                           category=classe[i], name=name[i])
+              q.save()
 
         logger.info("Done: " + url)

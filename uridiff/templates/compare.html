@@ -3,7 +3,6 @@
 
 {% block title %}Dashboard{% endblock %}
 
-
 {% block main-content %}
 <h1 class="page-header">Comparação de Usuários</h1>
 
@@ -35,9 +34,27 @@
     </div>
   {% endif %}
 
-  <div class="col-xs-12 col-sm-6 bg-success" border="1">
-    <h4>Seleção de usuários</h4>
-    <span class="text-muted">Seleção de usuários para comparação</span>
+  <div class="col-xs-12 col-sm-6 table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#ID</th>
+          <th>Nome</th>
+          <th>Questões</th>
+          <th>Posição</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td><a href="{{ user.get_url }}" target="_blank">{{ user.id }}</a></td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.category }}</td>
+            <td>{{ user.solved }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 

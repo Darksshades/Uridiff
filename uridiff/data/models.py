@@ -23,5 +23,9 @@ class UriUser(models.Model):
     avatar_url = models.CharField(max_length=128, blank=True)
     position = models.IntegerField(default=0)
 
+    def get_url(self):
+        url = "https://www.urionlinejudge.com.br/judge/pt/profile/{}".format(self.id)
+        return url
+
     def __unicode__(self):
       return u'%i - %s' % (self.id, self.name)

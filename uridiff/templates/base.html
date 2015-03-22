@@ -59,6 +59,19 @@
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
           {% block sidebar %} 
+            <ul class="nav nav-sidebar">
+              <li><a href="{% url 'home' %}">Home</a></li>
+              <li><a href="{% url 'compare' %}">Comparar</a></li>
+              <li><a href="#">Gerar questões</a></li>
+              <li><a href="#">Analisar exercícios</a></li>
+            </ul>
+
+            {% if DEBUG %}
+              <ul class="nav nav-sidebar">
+                <li><a href="{% url 'update_questions' %}">Criar questões</a></li>
+                <li><a href="{% url 'remove_questions' %}">Deletar questões</a></li>
+              </ul>
+            {% endif %}
           {% endblock %} 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">

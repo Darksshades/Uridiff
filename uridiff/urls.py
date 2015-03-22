@@ -4,7 +4,8 @@ from django.contrib import admin
 from django.conf import settings
 
 urlpatterns = patterns('',
-    url(r'^$', 'uridiff.home.views.dashboard', name='home'),
+    url(r'^$', 'uridiff.home.views.home', name='home'),
+    url(r'^compare$', 'uridiff.home.views.dashboard', name='compare'),
     url(r'data/', include('uridiff.data.urls')),
     url(r'accounts/', include('uridiff.accounts.urls')),
     url(r'^admin/', include(admin.site.urls)),

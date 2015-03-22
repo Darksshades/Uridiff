@@ -36,11 +36,45 @@ class Crawler(object):
                 break
 
     def compare_user(self, user_a, user_b):
-      pass
+        proc_student(user_a)
+        return # temp debug
+        proc_student(user_b)
 
 
     def proc_solved(self, url, aluno=None):
-      pass
+        pass
+
+
+    def proc_student(self, user_id):
+        user, created = UriUser.object.get_or_create(id=user_id)
+
+        if created:
+            self.create_student(user)
+
+        page = 1
+        logger.info("Processing student: " + user.name)
+        while(True):
+
+            link = "http://www.urionlinejudge.com.br/judge/en/profile/" \
+                    + user.id  + \
+                    "/sort:Run.updatetime/direction:desc/page:"+str(page)
+
+    def create_student(self, user):
+        logger.info("Getting user info: " + str(user.id))
+
+        url = "http://www.urionlinejudge.com.br/judge/en/profile/" \
+               + str(user.id)
+
+        logger.info("Url: " + url)
+
+        r = self.http.request('GET', url)
+        html = etree.HTML(r.data)
+        tr_nodes = html.xpath('//div[@id="profile-bar"]')[0]
+
+        user.name = tr_nodes.xpath('//div[@class="pb-username"]')[0].text
+        user.avatar_url = tr_nodes.xpath('//div[@class="pb-avatar"]/img')[0] \
+                                         .values()[0]
+        user.save()
 
 
     def proc_question(self, url, aluno=False):

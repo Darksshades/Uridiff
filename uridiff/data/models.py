@@ -20,6 +20,7 @@ class UriUser(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=32)
     questions = models.ManyToManyField(Question)
+    avatar_url = models.CharField(max_length=128, blank=True)
 
     def __unicode__(self):
       return u'%i - %s' % (self.id, self.name)

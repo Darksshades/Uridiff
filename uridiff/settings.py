@@ -96,3 +96,29 @@ TEMPLATE_DIRS = (
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale'),
 )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'info': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
+    },
+}

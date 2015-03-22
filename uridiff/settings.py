@@ -17,11 +17,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 's$7v))=xvk-9(8u-w7vpj2zg+12711jdttbpdszur3689($hb&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -83,13 +83,13 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_URL = '/media/'
+MEDIA_URL = '/media/'
 
-STATIC_ROOT = 'share/static'
-MEDIA_ROOT = 'share/media'
+STATIC_ROOT = 'collectstatic'
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
@@ -131,3 +131,4 @@ LOGGING = {
         }
     },
 }
+

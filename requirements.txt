@@ -9,4 +9,8 @@ wsgiref==0.1.2
 urllib3==1.5
 lxml
 
+
+#staticfiles
+whitenoise
+
 requests==2.3.0

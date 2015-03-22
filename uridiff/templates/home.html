@@ -1,1 +1,64 @@
-Test
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Dashboard{% endblock %}
+
+
+{% block sidebar %}
+  <ul class="nav nav-sidebar">
+    <li class="active"><a href="#">Comparar<span class="sr-only">(current)</span></a></li>
+    <li><a href="#">Gerar questões</a></li>
+    <li><a href="#">Analisar exercícios</a></li>
+  </ul>
+
+  {% if DEBUG %}
+    <ul class="nav nav-sidebar">
+      <li><a href="{% url 'update_questions' %}">Criar questões</a></li>
+      <li><a href="{% url 'remove_questions' %}">Deletar questões</a></li>
+    </ul>
+  {% endif %}
+{% endblock %}
+
+{% block main-content %}
+<h1 class="page-header">Comparação de Usuários</h1>
+
+<div class="row placeholders">
+  <div class="col-xs-6 col-sm-3 placeholder">
+    <img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+    <h4>Label</h4>
+    <span class="text-muted">Something else</span>
+  </div>
+  <div class="col-xs-6 col-sm-3 placeholder">
+    <img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+    <h4>Label</h4>
+    <span class="text-muted">Something else</span>
+  </div>
+</div>
+
+<h2 class="sub-header">Questões</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#ID</th>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Resolvido</th>
+        <th>Nível</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for question in questions %}
+        <tr>
+          <td><a href="{{ question.get_url }}" target="_blank">{{ question.id }}</a></td>
+          <td>{{ question.name }}</td>
+          <td>{{ question.category }}</td>
+          <td>{{ question.solved }}</td>
+          <td>{{ question.level }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock %}

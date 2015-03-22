@@ -82,9 +82,6 @@ MEDIA_ROOT = 'share/media'
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
 
-
-print os.path.join(BASE_DIR, 'templates')
-
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
@@ -112,7 +109,7 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
+            'formatter': 'simple'
         }
     },
     'loggers': {

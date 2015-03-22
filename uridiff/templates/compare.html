@@ -66,7 +66,7 @@
 </div>
 
 <h2 class="sub-header">Questões</h2>
-<div class="table-responsive">
+<div class="col-xs-12 col-sm-6 table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
@@ -78,7 +78,32 @@
       </tr>
     </thead>
     <tbody>
-      {% for question in questions %}
+      {% for question in questions1 %}
+        <tr>
+          <td><a href="{{ question.get_url }}" target="_blank">{{ question.id }}</a></td>
+          <td>{{ question.name }}</td>
+          <td>{{ question.category }}</td>
+          <td>{{ question.solved }}</td>
+          <td>{{ question.level }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="col-xs-12 col-sm-6 table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#ID</th>
+        <th>Nome</th>
+        <th>Categoria</th>
+        <th>Resolvido</th>
+        <th>Nível</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for question in questions2 %}
         <tr>
           <td><a href="{{ question.get_url }}" target="_blank">{{ question.id }}</a></td>
           <td>{{ question.name }}</td>

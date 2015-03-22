@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'uridiff',
     'uridiff.data',
     'uridiff.home',
 )
@@ -73,12 +74,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'uridiff/static'
-MEDIA_ROOT = 'uridiff/media'
+STATIC_URL = '/media/'
+
+STATIC_ROOT = 'share/static'
+MEDIA_ROOT = 'share/media'
 
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
 
+
+print os.path.join(BASE_DIR, 'templates')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),

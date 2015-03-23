@@ -5,6 +5,7 @@
 
 
 {% block main-content %}
+<!--
 <h1 class="page-header">Comparação de Usuários</h1>
 
 <div class="row placeholders">
@@ -40,8 +41,9 @@
     <span class="text-muted">Seleção de usuários para comparação</span>
   </div>
 </div>
+-->
 
-<h2 class="sub-header">Questões</h2>
+<h2 class="sub-header">Home</h2>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
@@ -59,7 +61,7 @@
           <td><a href="{{ question.get_url }}" target="_blank">{{ question.id }}</a></td>
           <td>{{ question.name }}</td>
           <td>{{ question.category }}</td>
-          <td>{{ question.solved }}</td>
+          <td>{{ question.questions.count }}</td>
           <td>{{ question.level }}</td>
         </tr>
       {% endfor %}

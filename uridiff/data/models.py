@@ -1,6 +1,10 @@
 from django.db import models
 from datetime import datetime
 
+
+PAGE_USER = 29
+PAGE_QUESTION = 30
+
 class Question(models.Model):
 
     id = models.IntegerField(primary_key=True)

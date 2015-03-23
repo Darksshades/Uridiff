@@ -5,6 +5,7 @@ from Queue import Queue
 from threading import Thread
 
 from uridiff.data.models import Question, UriUser, QuestionUsers
+from uridiff.data.models import PAGE_QUESTION, PAGE_USER
 
 
 logger = logging.getLogger('info')
@@ -17,7 +18,23 @@ class Crawler(object):
     http = urllib3.PoolManager(maxsize=NUM_SOCKETS)
 
 
-    def update_questions(self, npages=99, startPage=1, once=False):
+    def update_user_questions(self, user_id):
+        user, created = UriUser.objects.get_or_create(id=user_id)
+
+        if created:
+            self.update_user_info(user)
+
+        number = user.questions.count()
+        startPage = number/PAGE_USER
+        self.proc_student(user, 99, startPage)
+
+
+    def update_questions(self):
+        number = Question.objects.count()
+        startPage = number/PAGE_QUESTION
+        self.proc_questions(99, startPage)
+
+    def proc_questions(self, npages=99, startPage=1, once=False):
         page = startPage
         endPage = page+npages
 
@@ -84,12 +101,7 @@ class Crawler(object):
             qu.id = int(str(user_id)+str(ex))
             qu.save()
 
-    def proc_student(self, user_id, npages=99, startPage=1, once=False):
-        user, created = UriUser.objects.get_or_create(id=user_id)
-
-        if created:
-            self.update_user_info(user)
-
+    def proc_student(self, user, npages=99, startPage=1, once=False):
         endPage = startPage+npages
         page = 1
         logger.info("Processing student: " + user.name)
@@ -129,7 +141,7 @@ class Crawler(object):
         user.save()
 
 
-    def proc_question(self, url, aluno=False):
+    def proc_question(self, url, aluno=False, page=1):
         if self.isFinished:
             logger.info("Unkown page processed.")
             self.isFinished = True
@@ -152,10 +164,10 @@ class Crawler(object):
 
         for i, head in enumerate(header):
             if aluno:
-              aluno.questions.add(header)
+                aluno.questions.add(header)
             else:
-              q = Question(id=head, level=level[i], solved=solved[i].strip(),
+                q = Question(id=head, level=level[i], solved=solved[i].strip(),
                            category=classe[i], name=name[i])
-              q.save()
+                q.save()
 
         logger.info("Done: " + url)

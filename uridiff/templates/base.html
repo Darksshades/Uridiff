@@ -39,18 +39,30 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          {% if request.COOKIES.user_id %}
+            {% if user %}
+             <a class="navbar-brand" href="{{ user.get_url }}">{{ user.id }}</a>
+              <a class="navbar-brand" href="/">{{ user.name }} - {{ user.questions.count }}</a>
+              <a class="navbar-brand" href="{% url 'update_user_questions' %}?user={{ user.id }}" title="Atualizar">
+                <i class=" glyphicon glyphicon-eject"></i>
+              </a>
+            {% else %}
+              <a class="navbar-brand" href="#">{{ request.COOKIES.user_id }} - Usuário não cadastrado</a>
+            {%endif %}
+          {% endif %}
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Help</a></li>
+            {% if request.COOKIES.user_id %}
+              <li><a href="{% url 'remove_user' %}">Logout</a></li>
+            {% endif %}
           </ul>
-          <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="Search...">
-          </form>
+          {% if not request.COOKIES.user_id %}
+            <form class="navbar-form navbar-right" action="{% url 'save_user' %}"method="GET">
+              <input type="text" name="user" class="form-control" placeholder="uri id...">
+              <input type="submit" class="btn btn-default btn-sm" value="Login" />
+            </form>
+          {% endif %}
         </div>
       </div>
     </nav>
@@ -58,7 +70,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          {% block sidebar %} 
+          {% block sidebar %}
             <ul class="nav nav-sidebar">
               <li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
                 <a href="{% url 'home' %}">Home</a>
@@ -76,7 +88,7 @@
                 <li><a href="{% url 'remove_questions' %}">Deletar questões</a></li>
               </ul>
             {% endif %}
-          {% endblock %} 
+          {% endblock %}
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           {% block main-content %}{% endblock %}

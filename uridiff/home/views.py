@@ -5,9 +5,7 @@ from uridiff.data.crawler import Crawler
 
 def dashboard(request):
 
-    questions = Question.objects.all()
     users = UriUser.objects.all()
-
 
     user1 = None
     user2 = None
@@ -31,7 +29,6 @@ def dashboard(request):
         questions1, questions2 = c.compare_user(user1.id, user2.id)
 
     context = {
-        'questions' : questions,
         'questions1' : questions1,
         'questions2' : questions2,
         'user1' : user1,
@@ -43,4 +40,11 @@ def dashboard(request):
 
 
 def home(request):
-    return render(request, 'home.html')
+    questions = []
+    if request.COOKIES.has_key('user_id'):
+        try:
+            questions = Question.objects.filter(users__user_id=request.COOKIES['user_id'])
+        except:
+            questions = []
+
+    return render(request, 'home.html', { 'questions': questions })

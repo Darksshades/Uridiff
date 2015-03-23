@@ -6,19 +6,16 @@ from uridiff.data.models import Question, UriUser
 from uridiff.data.crawler import Crawler
 
 def update_questions(request):
-    pages = 1
-    if request.GET.get('pages'):
-        pages = request.GET.get('pages')
+    c = Crawler()
+    c.update_questions()
 
-    call_command('update_data', pages=pages, interactive=False, verbosity=0)
-
-    return redirect('home')
+    return redirect('compare')
 
 
 def remove_questions(request):
     Question.objects.all().delete()
 
-    return redirect('home')
+    return redirect('compare')
 
 
 def update_user(request):

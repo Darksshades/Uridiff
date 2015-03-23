@@ -25,13 +25,17 @@ class Crawler(object):
             self.update_user_info(user)
 
         number = user.questions.count()
-        startPage = number/PAGE_USER
+        # Ceil operation
+        startPage = -(-number//PAGE_USER)
+        startPage = startPage or 1
         self.proc_student(user, 99, startPage)
 
 
     def update_questions(self):
         number = Question.objects.count()
-        startPage = number/PAGE_QUESTION
+        # Ceil operation
+        startPage = -(-number//PAGE_QUESTION)
+        startPage = startPage or 1
         self.proc_questions(99, startPage)
 
     def proc_questions(self, npages=99, startPage=1, once=False):
@@ -102,8 +106,8 @@ class Crawler(object):
             qu.save()
 
     def proc_student(self, user, npages=99, startPage=1, once=False):
+        page = startPage
         endPage = startPage+npages
-        page = 1
         logger.info("Processing student: " + user.name)
         while(True):
             if self.isFinished:

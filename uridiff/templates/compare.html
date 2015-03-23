@@ -60,8 +60,12 @@
             {% else %}
               <td><a href="{% url 'compare' %}?user1={{ user.id }}">{{ user.name }}</td>
             {% endif %}
-            <td>{{ user.category }}</td>
-            <td>{{ user.solved }}</td>
+            <td>
+              {{ user.questions.count }}
+              <a href="{% url 'update_user_questions' %}?user={{ user.id }}" title="Atualizar">
+              <i class=" glyphicon glyphicon-eject"></i></a>
+            </td>
+            <td>{{ user.position }}</td>
           </tr>
         {% endfor %}
       </tbody>

@@ -23,6 +23,9 @@ class Crawler(object):
 
         while(True):
 
+            if self.isFinished:
+                break
+
             link = "http://www.urionlinejudge.com.br/judge/en/problems/all/"\
               "sort:id/direction:desc/page:"+str(page)
 

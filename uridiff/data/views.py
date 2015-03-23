@@ -31,3 +31,16 @@ def update_user(request):
     c.update_user_info(user)
 
     return redirect('compare')
+
+
+def update_user_questions(request):
+    print "Updating user questions view"
+    if not request.GET.get('user'):
+        return HttpResponse('Missing user parameter')
+
+    user_id = int(request.GET.get('user'))
+    print "Starting user with " + str(user_id)
+    c = Crawler()
+    c.proc_student(user_id)
+
+    return redirect('compare')

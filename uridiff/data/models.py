@@ -22,6 +22,7 @@ class UriUser(models.Model):
     name = models.CharField(max_length=32)
     avatar_url = models.CharField(max_length=128, blank=True)
     position = models.IntegerField(default=0)
+    last_page = models.IntegerField(default=1)
 
     def get_url(self):
         url = "https://www.urionlinejudge.com.br/judge/pt/profile/{}".format(self.id)
@@ -34,7 +35,7 @@ class UriUser(models.Model):
 class QuestionUsers(models.Model):
     user = models.ForeignKey(UriUser, related_name='questions')
     question = models.ForeignKey(Question, related_name='users')
-    submission_date = models.DateTimeField(auto_now_add=True, null=True)
+    submission_date = models.CharField(blank=True, max_length=32)
     id = models.IntegerField(primary_key=True)
 
     def __unicode__(self):

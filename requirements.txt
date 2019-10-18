@@ -13,4 +13,4 @@ lxml
 #staticfiles
 whitenoise
 
-requests==2.3.0
+requests==2.20.0
